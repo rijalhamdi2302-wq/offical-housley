@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Housley — Privacy Policy</title>
+<style>
+  :root { --bg:#fff8f2; --card:#ffffff; --ink:#3d2c29; --soft:#8a7a75; --accent:#ff6f91; --line:#f0e0d8; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--ink); line-height:1.65; }
+  .wrap { max-width:760px; margin:0 auto; padding:28px 20px 80px; }
+  header { text-align:center; padding:34px 0 10px; }
+  header h1 { font-size:26px; margin:8px 0 4px; }
+  header .logo { font-size:40px; }
+  header p { color:var(--soft); margin:0; font-size:14px; }
+  h2 { font-size:20px; margin:34px 0 8px; color:var(--accent); }
+  h3 { font-size:16px; margin:22px 0 6px; }
+  p, li { font-size:14.5px; }
+  ul { padding-left:20px; }
+  table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; background:var(--card); }
+  th, td { border:1px solid var(--line); padding:9px 11px; text-align:left; vertical-align:top; }
+  th { background:#fff0ec; }
+  .note { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin:14px 0; font-size:13.5px; }
+  .note b { color:var(--accent); }
+  .back { display:inline-block; margin-top:20px; color:var(--accent); text-decoration:none; font-size:14px; font-weight:600; }
+  .back:hover { text-decoration:underline; }
+  footer { margin-top:44px; text-align:center; color:var(--soft); font-size:12.5px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">🏡</div>
+    <h1>Housley — Privacy Policy</h1>
+    <p>Effective date: 20 August 2026 · Last updated: 20 August 2026</p>
+  </header>
+
+  <div class="note"><b>Your family's financial data is sensitive.</b> We take this seriously. This policy explains exactly what we collect, why, and how we protect it. If anything is unclear, email us at <b>support@housley.app</b>.</div>
+
+  <h2>1. What we collect</h2>
+  <table>
+    <tr><th>Category</th><th>Examples</th><th>Why</th></tr>
+    <tr><td>Account info</td><td>Email, hashed password, your name, family name</td><td>To create and secure your account</td></tr>
+    <tr><td>Family financial records</td><td>Fund top-ups, expenses, amounts, categories, shops, notes, budgets, goals, bills</td><td>The core purpose of the App — so your family can track money together</td></tr>
+    <tr><td>Receipts &amp; photos</td><td>Receipt photos, profile photos, transfer-proof screenshots</td><td>To keep proof of purchases and personalize profiles</td></tr>
+    <tr><td>Device &amp; usage</td><td>Basic logs (IP, timestamps) when you use the API</td><td>Security, rate-limiting, and fixing bugs</td></tr>
+    <tr><td>Payment records</td><td>Purchase tokens from ToyyibPay</td><td>To confirm and verify Pro purchases — never your card number</td></tr>
+  </table>
+
+  <h2>2. What we do NOT collect</h2>
+  <ul>
+    <li>We do <b>not</b> sell or rent your data to anyone. Ever.</li>
+    <li>We do <b>not</b> show ads and do not use ad trackers.</li>
+    <li>We do <b>not</b> collect precise location, contacts, or other apps' data.</li>
+    <li>We do <b>not</b> read your receipts for marketing. Receipts are used only to serve you (scanning, catalog memory, analytics).</li>
+  </ul>
+
+  <h2>3. How your data is stored</h2>
+  <ul>
+    <li>Stored on <b>secure cloud servers (MongoDB</b>) hosted by a reputable provider, accessed only over encrypted HTTPS connections.</li>
+    <li>Passwords and PINs are <b>hashed with bcrypt</b> — even we cannot read them.</li>
+    <li>Sessions use <b>JWT tokens</b> with automatic expiry; biometric unlock uses a rotating device token you can revoke by logging out.</li>
+    <li><b>Family isolation:</b> each family's data is separated by a family ID; no family can read another family's records.</li>
+    <li>Receipt photos on the free tier stay <b>on your device only</b>; Pro can back them up to the cloud.</li>
+  </ul>
+
+  <h2>4. AI processing (important)</h2>
+  <p>Housley's AI helpers (receipt scanning, meal plans, spending insights, "ask about your money") are powered by a third-party AI service (<b>Groq</b>). When you use an AI feature: the <b>photo or text you send</b> is transmitted to the AI service <b>only for that request</b>, and only if <b>AI is switched on</b> for your family (the provider can switch it off in Settings). We instruct the AI service not to use your data to train their models. AI answers are <b>estimates</b>; always double-check amounts the AI reads from a receipt.</p>
+
+  <h2>5. Who we share data with (and why)</h2>
+  <table>
+    <tr><th>Partner</th><th>What they see</th><th>Why</th></tr>
+    <tr><td>MongoDB (database host)</td><td>Your stored records</td><td>To host your data</td></tr>
+    <tr><td>Render (server host)</td><td>API traffic</td><td>To run the backend</td></tr>
+    <tr><td>Groq</td><td>Only the photo/text of the AI request you make</td><td>To power AI features</td></tr>
+    <tr><td>ToyyibPay</td><td>Purchase confirmation</td><td>To process payments and verify Pro</td></tr>
+    <tr><td>Sentry (when enabled)</td><td>Crash/error reports (no money amounts, no photos)</td><td>To fix bugs</td></tr>
+  </table>
+  <p>We only share what each partner strictly needs, and we choose partners that keep data confidential.</p>
+
+  <h2>6. Retention</h2>
+  <p>Your data stays as long as your account is active. If you delete records in the App, they are deleted from our servers. If you delete your account, your family's data is erased within 30 days (except what we must keep by law).</p>
+
+  <h2>7. Children &amp; family profiles</h2>
+  <p>Housley is a <b>family app</b>. Parents create profiles for their children (roles like "kid / dependent") and control the family's settings. Children's profiles only exist inside a parent-managed family. We do not market to children, show them ads, or collect more data than described above. <b>The person who adds a child's profile confirms they are that child's parent or guardian.</b></p>
+
+  <h2>8. Your rights (PDPA &amp; GDPR-style)</h2>
+  <p>You may, at any time: <b>access</b> your data (it's all visible in the App); <b>export</b> it (Excel / PDF); <b>correct</b> it (edit records); <b>delete</b> it (by range, factory reset, or account deletion); <b>object / withdraw consent</b> (switch off AI, or delete your account); and <b>lodge a complaint</b> with Malaysia's Personal Data Protection Department (JPDP). Email us and we will respond within 30 days.</p>
+
+  <h2>9. Security incidents</h2>
+  <p>If a data breach ever affects your personal or financial data, we will notify you and the relevant authority within the time required by law, and tell you exactly what happened and what you should do (e.g. change your password).</p>
+
+  <h2>10. Contact</h2>
+  <p>Email: <b>support@housley.app</b> (replace with your real address before publishing) · Data Protection Officer: same address, FAO "Privacy".</p>
+
+  <a class="back" href="/terms.html">→ Read our Terms of Service</a>
+
+  <footer>© 2026 Housley · Family money, together 💛</footer>
+</div>
+</body>
+</html>
