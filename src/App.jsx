@@ -31,28 +31,49 @@ function FadeIn({ children, delay = 0, className = '' }) {
 /* ─── Navbar ─── */
 function Navbar({ currentPage, setPage }) {
   const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 30)
     window.addEventListener('scroll', h, { passive: true })
     return () => window.removeEventListener('scroll', h)
   }, [])
 
+  const nav = (page) => { setPage(page); setMenuOpen(false) }
+
   return (
+    <>
     <nav className={`nav ${scrolled ? 'nav-scrolled' : ''}`}>
       <div className="nav-inner">
-        <div className="nav-logo" onClick={() => setPage('home')} style={{ cursor: 'pointer' }}>
+        <div className="nav-logo" onClick={() => nav('home')} style={{ cursor: 'pointer' }}>
           <img className="nav-logo-icon" src="/icon.png" alt="Housley" width="32" height="32" style={{ borderRadius: 8, objectFit: 'cover' }} />
           <span className="nav-logo-text">Housley</span>
         </div>
         <div className="nav-links">
-          <button className={`nav-link ${currentPage === 'home' ? 'active' : ''}`} onClick={() => setPage('home')}>Home</button>
-          <button className={`nav-link ${currentPage === 'features' ? 'active' : ''}`} onClick={() => setPage('features')}>Features</button>
+          <button className={`nav-link ${currentPage === 'home' ? 'active' : ''}`} onClick={() => nav('home')}>Home</button>
+          <button className={`nav-link ${currentPage === 'features' ? 'active' : ''}`} onClick={() => nav('features')}>Features</button>
           <a href="/terms.html" className="nav-link" target="_blank" rel="noopener noreferrer">Terms</a>
           <a href="/privacy.html" className="nav-link" target="_blank" rel="noopener noreferrer">Privacy</a>
-          <button className="nav-cta" onClick={() => setPage('download')}>Download APK ↓</button>
+          <button className="nav-cta" onClick={() => nav('download')}>Download APK</button>
         </div>
+        <button className="nav-hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
+          <span className={`hamburger-line ${menuOpen ? 'open' : ''}`} />
+          <span className={`hamburger-line ${menuOpen ? 'open' : ''}`} />
+          <span className={`hamburger-line ${menuOpen ? 'open' : ''}`} />
+        </button>
       </div>
     </nav>
+    {menuOpen && (
+      <div className="mobile-menu" onClick={() => setMenuOpen(false)}>
+        <div className="mobile-menu-inner" onClick={(e) => e.stopPropagation()}>
+          <button className="mobile-link" onClick={() => nav('home')}>Home</button>
+          <button className="mobile-link" onClick={() => nav('features')}>Features</button>
+          <a href="/terms.html" className="mobile-link" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+          <a href="/privacy.html" className="mobile-link" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+          <button className="mobile-cta" onClick={() => nav('download')}>Download APK</button>
+        </div>
+      </div>
+    )}
+    </>
   )
 }
 
@@ -164,20 +185,29 @@ function FeaturesSection() {
 /* ─── Download Section ─── */
 function DownloadSection() {
   const [version, setVersion] = useState('1.0.0')
+  const [releaseNotes, setReleaseNotes] = useState([])
+  const [releasedAt, setReleasedAt] = useState(null)
   const [downloading, setDownloading] = useState(false)
+  const [apkUrl, setApkUrl] = useState(APK_URL)
+  const [hasRelease, setHasRelease] = useState(false)
 
   useEffect(() => {
-    fetch(`${API_URL}/api/health`)
+    fetch(`${API_URL}/api/app/latest`)
       .then(r => r.json())
+      .then(d => {
+        if (d.version) setVersion(d.version)
+        if (d.apkUrl) { setApkUrl(d.apkUrl); setHasRelease(true) }
+        if (d.releaseNotes) setReleaseNotes(d.releaseNotes)
+        if (d.releasedAt) setReleasedAt(d.releasedAt)
+      })
       .catch(() => {})
   }, [])
 
   const handleDownload = () => {
     setDownloading(true)
-    // Create a temporary link to trigger download
     const a = document.createElement('a')
-    a.href = APK_URL
-    a.download = 'Housley.apk'
+    a.href = apkUrl
+    a.download = `Housley-v${version}.apk`
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
@@ -191,7 +221,8 @@ function DownloadSection() {
           <div className="download-icon">📱</div>
           <h2>Download Housley</h2>
           <p className="download-version">Version {version} • Android 8.0+</p>
-          <p className="download-size">~15 MB • Free forever</p>
+          {releasedAt && <p className="download-size" style={{ marginTop: 4 }}>Released {new Date(releasedAt).toLocaleDateString('en-MY', { year: 'numeric', month: 'short', day: 'numeric' })}</p>}
+          {!releasedAt && <p className="download-size">Free forever</p>}
         </FadeIn>
         <FadeIn delay={100}>
           <button className="btn btn-primary btn-xl" onClick={handleDownload} disabled={downloading}>
@@ -202,6 +233,16 @@ function DownloadSection() {
             )}
           </button>
         </FadeIn>
+        {releaseNotes.length > 0 && (
+        <FadeIn delay={150}>
+          <div className="download-steps" style={{ marginTop: 20, textAlign: 'left' }}>
+            <h3>What's New</h3>
+            <ul style={{ paddingLeft: 20, color: 'var(--text-secondary)', fontSize: 14 }}>
+              {releaseNotes.map((note, i) => <li key={i}>{note}</li>)}
+            </ul>
+          </div>
+        </FadeIn>
+        )}
         <FadeIn delay={200}>
           <div className="download-steps">
             <h3>How to install</h3>
