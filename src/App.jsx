@@ -293,19 +293,49 @@ function DownloadSection() {
       <div className="download-card">
         <FadeIn>
           <div className="download-icon"><Icons.Download /></div>
-          <h2>Download Housley</h2>
+          <h2>Get Housley</h2>
           <p className="download-version">Version {version} • Android 8.0+</p>
           {releasedAt && <p className="download-size" style={{ marginTop: 4 }}>Released {new Date(releasedAt).toLocaleDateString('en-MY', { year: 'numeric', month: 'short', day: 'numeric' })}</p>}
           {!releasedAt && <p className="download-size">Free forever</p>}
         </FadeIn>
+        {/* v4: Two install options — APK + PWA */}
         <FadeIn delay={100}>
-          <button className="btn btn-primary btn-xl" onClick={handleDownload} disabled={downloading}>
-            {downloading ? (
-              <>Downloading...</>
-            ) : (
-              <><Icons.Download /> Download APK Now</>
-            )}
-          </button>
+          <div style={{ display: 'flex', gap: 12, marginBottom: 16 }}>
+            <button className="btn btn-primary btn-xl" style={{ flex: 1 }} onClick={handleDownload} disabled={downloading}>
+              {downloading ? 'Downloading...' : <><Icons.Download /> Download APK</>}
+            </button>
+            <button className="btn btn-soft btn-xl" style={{ flex: 1 }} onClick={() => {
+              // PWA install
+              if (window._deferredPrompt) {
+                window._deferredPrompt.prompt()
+              } else {
+                // iOS or not supported — show manual instructions
+                alert('To install as an app:\n\nAndroid: Tap the three dots menu → "Add to Home screen"\n\niOS Safari: Tap the Share button → "Add to Home Screen"')
+              }
+            }}>
+              <Icons.Zap /> Install as Web App
+            </button>
+          </div>
+        </FadeIn>
+        {/* Comparison table */}
+        <FadeIn delay={150}>
+          <div style={{ width: '100%', marginBottom: 20, fontSize: 13 }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+              <thead>
+                <tr style={{ borderBottom: '2px solid var(--border)' }}>
+                  <th style={{ padding: '6px 8px', color: 'var(--text-secondary)' }}></th>
+                  <th style={{ padding: '6px 8px', fontWeight: 700, color: 'var(--primary)' }}>APK</th>
+                  <th style={{ padding: '6px 8px', fontWeight: 700, color: 'var(--accent)' }}>Web App</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style={{ borderBottom: '1px solid var(--border)' }}><td style={{ padding: '6px 8px' }}>Biometric unlock</td><td style={{ padding: '6px 8px' }}>Yes</td><td style={{ padding: '6px 8px' }}>No (PIN only)</td></tr>
+                <tr style={{ borderBottom: '1px solid var(--border)' }}><td style={{ padding: '6px 8px' }}>Push notifications</td><td style={{ padding: '6px 8px' }}>Yes</td><td style={{ padding: '6px 8px' }}>Yes (Android)</td></tr>
+                <tr style={{ borderBottom: '1px solid var(--border)' }}><td style={{ padding: '6px 8px' }}>Install method</td><td style={{ padding: '6px 8px' }}>Unknown sources</td><td style={{ padding: '6px 8px' }}>One tap</td></tr>
+                <tr><td style={{ padding: '6px 8px' }}>Updates</td><td style={{ padding: '6px 8px' }}>Manual reinstall</td><td style={{ padding: '6px 8px' }}>Automatic</td></tr>
+              </tbody>
+            </table>
+          </div>
         </FadeIn>
         {releaseNotes.length > 0 && (
         <FadeIn delay={150}>
@@ -493,6 +523,16 @@ function FeaturesPage({ setPage }) {
 /* ─── Main App ─── */
 export default function App() {
   const [page, setPage] = useState('home')
+
+  // v4: Capture PWA install prompt
+  useEffect(() => {
+    const handler = (e) => {
+      e.preventDefault()
+      window._deferredPrompt = e
+    }
+    window.addEventListener('beforeinstallprompt', handler)
+    return () => window.removeEventListener('beforeinstallprompt', handler)
+  }, [])
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
