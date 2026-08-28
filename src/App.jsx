@@ -265,14 +265,11 @@ function DownloadSection() {
   const [version, setVersion] = useState('1.0.0')
   const [releaseNotes, setReleaseNotes] = useState([])
   const [releasedAt, setReleasedAt] = useState(null)
-  const [apkUrl, setApkUrl] = useState(APK_URL)
-
   useEffect(() => {
     fetch(`${API_URL}/api/app/latest`)
       .then(r => r.json())
       .then(d => {
         if (d.version) setVersion(d.version)
-        if (d.apkUrl) setApkUrl(d.apkUrl)
         if (d.releaseNotes) setReleaseNotes(d.releaseNotes)
         if (d.releasedAt) setReleasedAt(d.releasedAt)
       })
@@ -292,7 +289,7 @@ function DownloadSection() {
         {/* v4: Two install options — APK + PWA */}
         <FadeIn delay={100}>
           <div style={{ display: 'flex', gap: 12, marginBottom: 16 }}>
-            <a className="btn btn-primary btn-xl" style={{ flex: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8 }} href={apkUrl} download={`Housley-v${version}.apk`}>
+            <a className="btn btn-primary btn-xl" style={{ flex: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8 }} href={APK_URL} download="Housley.apk">
               <Icons.Download /> Download APK
             </a>
             <button className="btn btn-soft btn-xl" style={{ flex: 1 }} onClick={() => {
