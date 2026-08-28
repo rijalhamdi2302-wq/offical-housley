@@ -56,15 +56,7 @@ function FadeIn({ children, delay = 0, className = '' }) {
   )
 }
 
-/* ─── Direct APK download handler ─── */
-const downloadApk = () => {
-  const a = document.createElement('a')
-  a.href = APK_URL
-  a.download = 'Housley.apk'
-  document.body.appendChild(a)
-  a.click()
-  document.body.removeChild(a)
-}
+
 
 /* ─── Navbar ─── */
 function Navbar({ currentPage, setPage }) {
@@ -92,7 +84,7 @@ function Navbar({ currentPage, setPage }) {
           <button className={`nav-link ${currentPage === 'about' ? 'active' : ''}`} onClick={() => nav('about')}>About</button>
           <a href="/terms.html" className="nav-link" target="_blank" rel="noopener noreferrer">Terms</a>
           <a href="/privacy.html" className="nav-link" target="_blank" rel="noopener noreferrer">Privacy</a>
-          <button className="nav-cta" onClick={downloadApk}>Download APK</button>
+          <a className="nav-cta" href={APK_URL} download="Housley.apk">Download APK</a>
         </div>
         <button className="nav-hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
           <span className={`hamburger-line ${menuOpen ? 'open' : ''}`} />
@@ -109,7 +101,7 @@ function Navbar({ currentPage, setPage }) {
           <button className="mobile-link" onClick={() => nav('about')}>About</button>
           <a href="/terms.html" className="mobile-link" target="_blank" rel="noopener noreferrer">Terms of Service</a>
           <a href="/privacy.html" className="mobile-link" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
-          <button className="mobile-cta" onClick={downloadApk}>Download APK</button>
+          <a className="mobile-cta" href={APK_URL} download="Housley.apk">Download APK</a>
         </div>
       </div>
     )}
@@ -145,9 +137,9 @@ function Hero({ setPage }) {
         </FadeIn>
         <FadeIn delay={300}>
           <div className="hero-buttons">
-            <button className="btn btn-primary btn-lg" onClick={downloadApk}>
+            <a className="btn btn-primary btn-lg" href={APK_URL} download="Housley.apk" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
               <Icons.Download /> Download Free APK
-            </button>
+            </a>
             <button className="btn btn-secondary btn-lg" onClick={() => setPage('features')}>
               See Features
             </button>
@@ -273,7 +265,6 @@ function DownloadSection() {
   const [version, setVersion] = useState('1.0.0')
   const [releaseNotes, setReleaseNotes] = useState([])
   const [releasedAt, setReleasedAt] = useState(null)
-  const [downloading, setDownloading] = useState(false)
   const [apkUrl, setApkUrl] = useState(APK_URL)
 
   useEffect(() => {
@@ -288,17 +279,6 @@ function DownloadSection() {
       .catch(() => {})
   }, [])
 
-  const handleDownload = () => {
-    setDownloading(true)
-    const a = document.createElement('a')
-    a.href = apkUrl
-    a.download = `Housley-v${version}.apk`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    setTimeout(() => setDownloading(false), 3000)
-  }
-
   return (
     <section className="download" id="download">
       <div className="download-card">
@@ -312,9 +292,9 @@ function DownloadSection() {
         {/* v4: Two install options — APK + PWA */}
         <FadeIn delay={100}>
           <div style={{ display: 'flex', gap: 12, marginBottom: 16 }}>
-            <button className="btn btn-primary btn-xl" style={{ flex: 1 }} onClick={handleDownload} disabled={downloading}>
-              {downloading ? 'Downloading...' : <><Icons.Download /> Download APK</>}
-            </button>
+            <a className="btn btn-primary btn-xl" style={{ flex: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8 }} href={apkUrl} download={`Housley-v${version}.apk`}>
+              <Icons.Download /> Download APK
+            </a>
             <button className="btn btn-soft btn-xl" style={{ flex: 1 }} onClick={() => {
               // PWA install
               if (window._deferredPrompt) {
@@ -414,9 +394,9 @@ function PricingSection() {
               <li><Icons.Check /> Family chat</li>
               <li><Icons.Check /> Up to 6 family members</li>
             </ul>
-            <button className="btn btn-secondary btn-block" onClick={downloadApk}>
+            <a className="btn btn-secondary btn-block" href={APK_URL} download="Housley.apk" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
               Download Free
-            </button>
+            </a>
           </div>
         </FadeIn>
         <FadeIn delay={100}>
@@ -512,7 +492,7 @@ function Footer({ setPage }) {
           <button onClick={() => setPage('about')}>About</button>
           <a href="/terms.html" target="_blank" rel="noopener noreferrer">Terms</a>
           <a href="/privacy.html" target="_blank" rel="noopener noreferrer">Privacy</a>
-          <button onClick={downloadApk}>Download</button>
+          <a href={APK_URL} download="Housley.apk">Download</a>
         </div>
         <p className="footer-copy">© 2026 Housley. Made with care for families.</p>
       </div>
