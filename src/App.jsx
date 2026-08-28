@@ -56,6 +56,16 @@ function FadeIn({ children, delay = 0, className = '' }) {
   )
 }
 
+/* ─── Direct APK download handler ─── */
+const downloadApk = () => {
+  const a = document.createElement('a')
+  a.href = APK_URL
+  a.download = 'Housley.apk'
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+}
+
 /* ─── Navbar ─── */
 function Navbar({ currentPage, setPage }) {
   const [scrolled, setScrolled] = useState(false)
@@ -82,7 +92,7 @@ function Navbar({ currentPage, setPage }) {
           <button className={`nav-link ${currentPage === 'about' ? 'active' : ''}`} onClick={() => nav('about')}>About</button>
           <a href="/terms.html" className="nav-link" target="_blank" rel="noopener noreferrer">Terms</a>
           <a href="/privacy.html" className="nav-link" target="_blank" rel="noopener noreferrer">Privacy</a>
-          <button className="nav-cta" onClick={() => nav('download')}>Download APK</button>
+          <button className="nav-cta" onClick={downloadApk}>Download APK</button>
         </div>
         <button className="nav-hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
           <span className={`hamburger-line ${menuOpen ? 'open' : ''}`} />
@@ -99,7 +109,7 @@ function Navbar({ currentPage, setPage }) {
           <button className="mobile-link" onClick={() => nav('about')}>About</button>
           <a href="/terms.html" className="mobile-link" target="_blank" rel="noopener noreferrer">Terms of Service</a>
           <a href="/privacy.html" className="mobile-link" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
-          <button className="mobile-cta" onClick={() => nav('download')}>Download APK</button>
+          <button className="mobile-cta" onClick={downloadApk}>Download APK</button>
         </div>
       </div>
     )}
@@ -135,7 +145,7 @@ function Hero({ setPage }) {
         </FadeIn>
         <FadeIn delay={300}>
           <div className="hero-buttons">
-            <button className="btn btn-primary btn-lg" onClick={() => setPage('download')}>
+            <button className="btn btn-primary btn-lg" onClick={downloadApk}>
               <Icons.Download /> Download Free APK
             </button>
             <button className="btn btn-secondary btn-lg" onClick={() => setPage('features')}>
@@ -404,7 +414,7 @@ function PricingSection() {
               <li><Icons.Check /> Family chat</li>
               <li><Icons.Check /> Up to 6 family members</li>
             </ul>
-            <button className="btn btn-secondary btn-block" onClick={() => document.getElementById('download')?.scrollIntoView({ behavior: 'smooth' })}>
+            <button className="btn btn-secondary btn-block" onClick={downloadApk}>
               Download Free
             </button>
           </div>
@@ -502,7 +512,7 @@ function Footer({ setPage }) {
           <button onClick={() => setPage('about')}>About</button>
           <a href="/terms.html" target="_blank" rel="noopener noreferrer">Terms</a>
           <a href="/privacy.html" target="_blank" rel="noopener noreferrer">Privacy</a>
-          <button onClick={() => setPage('download')}>Download</button>
+          <button onClick={downloadApk}>Download</button>
         </div>
         <p className="footer-copy">© 2026 Housley. Made with care for families.</p>
       </div>
