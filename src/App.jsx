@@ -127,6 +127,7 @@ function Hero({ setPage }) {
           </h1>
         </FadeIn>
         <FadeIn delay={200}>
+          <p className="hero-sub" style={{ fontWeight: 600, fontSize: 16, marginBottom: 4 }}>Smarter spending, closer family.</p>
           <p className="hero-sub">
             Track expenses, budgets, groceries and savings goals — all in one beautiful app.
             Built for families, by a family.
